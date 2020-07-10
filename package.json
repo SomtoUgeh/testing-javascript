@@ -13,12 +13,23 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "run:test": "react-scripts test",
+    "test": "is-ci \"test:coverage\"  \"run:test\"",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|tsx|json|css|html|md)\"",
+    "lint": "eslint --ignore-path .gitignore .",
+    "isready": "yarn format && yarn lint && yarn test:coverage && yarn build",
+    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "test:staged": "cross-env CI=true react-scripts test --env=jsdom --findRelatedTests"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
@@ -30,5 +41,46 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "proseWrap": "always",
+    "jsxSingleQuote": false,
+    "jsxBracketSameLine": false,
+    "quoteProps": "as-needed",
+    "htmlWhitespaceSensitivity": "css"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.+(js|ts|graphql|yml|yaml|vue|tsx)": [
+      "eslint --fix",
+      "prettier --write",
+      "yarn test:staged"
+    ],
+    "**/*.+(css|sass|less|scss|json|html)": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "eslint-config-kentcdodds": "^14.14.1",
+    "eslint-config-prettier": "^6.11.0",
+    "husky": "^4.2.5",
+    "identity-obj-proxy": "^3.0.0",
+    "is-ci-cli": "^2.1.2",
+    "jest-axe": "^3.4.0",
+    "jest-styled-components": "^7.0.2",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
   }
 }

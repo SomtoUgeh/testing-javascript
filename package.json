@@ -19,7 +19,7 @@
     "test:coverage": "react-scripts test --coverage",
     "test": "react-scripts test --env=jsdom-fourteen",
     "isready": "yarn format && yarn lint && yarn test:coverage",
-    "test:staged": "cross-env CI=true react-scripts test --env=jsdom --findRelatedTests",
+    "test:staged": "cross-env CI=true react-scripts test --env=jsdom-fourteen --findRelatedTests",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|tsx|json|css|html|md)\""
   },
   "eslintConfig": {

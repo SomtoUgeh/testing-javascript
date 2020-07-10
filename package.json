@@ -8,7 +8,8 @@
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "styled-components": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -73,7 +74,6 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
-    "eslint-config-kentcdodds": "^14.14.1",
     "eslint-config-prettier": "^6.11.0",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
@@ -82,5 +82,27 @@
     "jest-styled-components": "^7.0.2",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "./src/*/*.types.{js,jsx,ts,tsx}",
+      "./src/index.{js,tsx}",
+      "./src/serviceWorker.{js,ts}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 30,
+        "branches": 30,
+        "functions": 30,
+        "lines": 30
+      }
+    },
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "snapshotSerializers": [
+      "jest-styled-components"
+    ]
   }
 }

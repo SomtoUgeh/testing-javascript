@@ -24,8 +24,6 @@ describe('Greeting components', () => {
     expect(mockLoadGreeting).toHaveBeenCalledWith('Mary');
     expect(mockLoadGreeting).toHaveBeenCalledTimes(1);
 
-    // had to update test script in package.json to get this to work
-    // it is a CRA issue using old jest and js-dom
     await waitFor(() =>
       expect(screen.getByLabelText(/greeting/i)).toHaveTextContent(
         TEST_GREETING

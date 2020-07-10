@@ -3,21 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.5",
+    "@testing-library/user-event": "^12.0.11",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1"
   },
   "scripts": {
-    "test": "react-scripts test",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint --ignore-path .gitignore .",
     "test:coverage": "react-scripts test --coverage",
+    "test": "react-scripts test --env=jsdom-fourteen",
     "isready": "yarn format && yarn lint && yarn test:coverage",
     "test:staged": "cross-env CI=true react-scripts test --env=jsdom --findRelatedTests",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|tsx|json|css|html|md)\""

@@ -16,6 +16,4 @@ test('should render an input with label "Favorite Number"', () => {
 
   rerender(<FavoriteNumber max={10} />);
   expect(screen.queryByRole('alert')).toBeNull();
-
-  debug();
 });

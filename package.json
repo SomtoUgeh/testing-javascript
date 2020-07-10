@@ -12,17 +12,15 @@
     "styled-components": "^5.1.1"
   },
   "scripts": {
+    "test": "react-scripts test",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "run:test": "react-scripts test",
-    "test": "is-ci \"test:coverage\"  \"run:test\"",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|tsx|json|css|html|md)\"",
     "lint": "eslint --ignore-path .gitignore .",
-    "isready": "yarn format && yarn lint && yarn test:coverage && yarn build",
-    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false",
-    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
-    "test:staged": "cross-env CI=true react-scripts test --env=jsdom --findRelatedTests"
+    "test:coverage": "react-scripts test --coverage",
+    "isready": "yarn format && yarn lint && yarn test:coverage",
+    "test:staged": "cross-env CI=true react-scripts test --env=jsdom --findRelatedTests",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|tsx|json|css|html|md)\""
   },
   "eslintConfig": {
     "extends": "react-app"

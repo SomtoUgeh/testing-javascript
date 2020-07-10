@@ -27,7 +27,12 @@
   },
   "eslintIgnore": [
     "node_modules",
-    "coverage"
+    "coverage",
+    "dist",
+    "build",
+    "docs",
+    ".vscode",
+    ".github"
   ],
   "browserslist": {
     "production": [

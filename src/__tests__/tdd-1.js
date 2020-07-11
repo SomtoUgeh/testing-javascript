@@ -33,20 +33,40 @@ const userBuilder = build('User', {
   },
 });
 
-test('should render a form with title, tags, content and submit btn', async () => {
-  mockSavePost.mockResolvedValueOnce();
-
+function renderEditor() {
   const fakeUser = userBuilder();
   const mockNewPost = postBuilder();
 
   render(<Editor user={fakeUser} />);
 
-  const preDate = new Date().getTime();
-
   const title = screen.getByLabelText(/title/i);
   const content = screen.getByLabelText(/content/i);
   const tags = screen.getByLabelText(/tags/i);
   const submitBtn = screen.getByText(/submit/i);
+
+  return {
+    fakeUser,
+    mockNewPost,
+    submitBtn,
+    title,
+    content,
+    tags,
+  };
+}
+
+test('should render a form with title, tags, content and submit btn', async () => {
+  mockSavePost.mockResolvedValueOnce();
+
+  const {
+    fakeUser,
+    mockNewPost,
+    submitBtn,
+    title,
+    content,
+    tags,
+  } = renderEditor();
+
+  const preDate = new Date().getTime();
 
   user.type(title, mockNewPost.title);
   user.type(content, mockNewPost.content);
@@ -78,10 +98,7 @@ test('should render an error when savePost fails', async () => {
   const errorTest = 'test error';
   mockSavePost.mockRejectedValueOnce({ data: { error: errorTest } });
 
-  const fakeUser = userBuilder();
-  render(<Editor user={fakeUser} />);
-
-  const submitBtn = screen.getByText(/submit/i);
+  const { fakeUser, submitBtn } = renderEditor();
   user.click(submitBtn);
 
   const postError = await screen.findByRole('alert');

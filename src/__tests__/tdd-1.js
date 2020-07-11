@@ -1,27 +1,47 @@
 import React from 'react';
 import { Editor } from '../tdd-1';
-import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { savePost as mockSavePost } from '../api';
+import { Redirect as MockRedirect } from 'react-router';
+import { render, screen, waitFor } from '@testing-library/react';
+import { build, fake, sequence } from '@jackfranklin/test-data-bot';
 
 jest.mock('../api');
+
+jest.mock('react-router', () => {
+  return {
+    Redirect: jest.fn(() => null),
+  };
+});
 
 afterEach(() => {
   jest.clearAllMocks();
 });
 
-test('should render a form with title, tags, content and submit btn', () => {
+const postBuilder = build('Post', {
+  fields: {
+    title: fake((f) => f.lorem.words()),
+    // this adds paragraphs with newlinees, always remove
+    content: fake((f) => f.lorem.paragraphs().replace(/(\r\n|\n|\r)/gm, '')),
+    tags: fake((f) => [f.lorem.word(), f.lorem.word(), f.lorem.word()]),
+  },
+});
+
+const userBuilder = build('User', {
+  fields: {
+    id: sequence((s) => `user-${s}`),
+  },
+});
+
+test('should render a form with title, tags, content and submit btn', async () => {
   mockSavePost.mockResolvedValueOnce();
 
-  const fakeUser = { id: 'user-1' };
-
-  const mockNewPost = {
-    title: 'Test title',
-    content: 'Test content',
-    tags: ['tag1', 'tag2'],
-  };
+  const fakeUser = userBuilder();
+  const mockNewPost = postBuilder();
 
   render(<Editor user={fakeUser} />);
+
+  const preDate = new Date().getTime();
 
   const title = screen.getByLabelText(/title/i);
   const content = screen.getByLabelText(/content/i);
@@ -36,8 +56,20 @@ test('should render a form with title, tags, content and submit btn', () => {
 
   expect(submitBtn).toBeDisabled();
   expect(mockSavePost).toHaveBeenCalledTimes(1);
+
   expect(mockSavePost).toHaveBeenCalledWith({
     ...mockNewPost,
     authorId: fakeUser.id,
+    date: expect.any(String),
   });
+
+  const postDate = new Date().getTime();
+
+  const date = new Date(mockSavePost.mock.calls[0][0].date).getTime();
+  expect(date).toBeGreaterThanOrEqual(preDate);
+  expect(date).toBeLessThanOrEqual(postDate);
+
+  await waitFor(() =>
+    expect(MockRedirect).toHaveBeenCalledWith({ to: '/' }, {})
+  );
 });

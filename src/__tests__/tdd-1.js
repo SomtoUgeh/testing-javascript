@@ -85,6 +85,7 @@ test('should render a form with title, tags, content and submit btn', async () =
 
   const postDate = new Date().getTime();
 
+  // get time input from component
   const date = new Date(mockSavePost.mock.calls[0][0].date).getTime();
   expect(date).toBeGreaterThanOrEqual(preDate);
   expect(date).toBeLessThanOrEqual(postDate);

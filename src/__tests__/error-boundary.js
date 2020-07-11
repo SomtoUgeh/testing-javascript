@@ -30,17 +30,8 @@ function Bomb({ shouldThrow = false }) {
 test('should render error boundary', () => {
   mockReportError.mockResolvedValueOnce({ success: true });
 
-  const { rerender } = render(
-    <ErrorBoundary>
-      <Bomb />
-    </ErrorBoundary>
-  );
-
-  rerender(
-    <ErrorBoundary>
-      <Bomb shouldThrow={true} />
-    </ErrorBoundary>
-  );
+  const { rerender } = render(<Bomb />, { wrapper: ErrorBoundary });
+  rerender(<Bomb shouldThrow={true} />);
 
   const error = expect.any(Error);
   const info = { componentStack: expect.stringContaining('Bomb') };
@@ -53,11 +44,7 @@ test('should render error boundary', () => {
   mockReportError.mockClear();
   console.error.mockClear();
 
-  rerender(
-    <ErrorBoundary>
-      <Bomb />
-    </ErrorBoundary>
-  );
+  rerender(<Bomb />);
 
   const alert = screen.getByRole('alert');
   expect(alert).toHaveTextContent(/There was a problem/i);

@@ -9,8 +9,14 @@ module.exports = {
   env: {
     browser: true,
   },
-  plugins: ['react-hooks'],
-  extends: ['eslint:recommended', 'eslint-config-prettier', 'react-app'],
+  plugins: ['react-hooks', 'testing-library'],
+  extends: [
+    'eslint:recommended',
+    'eslint-config-prettier',
+    'react-app',
+    'plugin:testing-library/recommended',
+    'plugin:testing-library/react',
+  ],
   rules: {
     'no-console': 'warn',
     'react/prop-types': 'off',
@@ -24,12 +30,15 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react-hooks/rules-of-hooks': 'error',
     semi: ['error', 'always'],
-    'no-undef': 'off',
+    'no-undef': 1,
     'no-empty': 'warn',
     'no-func-assign': 1,
     'no-unreachable': 1,
     'no-invalid-regexp': 1,
-    'no-unused-vars': 'off',
+    'no-unused-vars': 1,
+    'testing-library/no-debug': 'warn',
+    'testing-library/prefer-wait-for': 'error',
+    'testing-library/prefer-screen-queries': 'error',
   },
   settings: {
     'import/resolver': {

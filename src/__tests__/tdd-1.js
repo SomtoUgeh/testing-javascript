@@ -99,7 +99,7 @@ test('should render an error when savePost fails', async () => {
   const errorTest = 'test error';
   mockSavePost.mockRejectedValueOnce({ data: { error: errorTest } });
 
-  const { fakeUser, submitBtn } = renderEditor();
+  const { submitBtn } = renderEditor();
   user.click(submitBtn);
 
   const postError = await screen.findByRole('alert');

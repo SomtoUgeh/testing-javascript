@@ -5,6 +5,7 @@ import { Redirect } from 'react-router';
 const Editor = ({ user }) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -20,7 +21,12 @@ const Editor = ({ user }) => {
       tags: tags.value.split(',').map((t) => t.trim()),
     };
 
-    savePost(newPost).then(() => setRedirect(true));
+    savePost(newPost)
+      .then(() => setRedirect(true))
+      .catch((error) => {
+        setIsSubmitting(false);
+        setError(error.data.error);
+      });
   }
 
   if (redirect) return <Redirect to="/" />;
@@ -45,6 +51,8 @@ const Editor = ({ user }) => {
       <button type="submit" disabled={isSubmitting}>
         Submit
       </button>
+
+      {error ? <div role="alert">{error}</div> : null}
     </form>
   );
 };

@@ -21,7 +21,7 @@ afterEach(() => {
 const postBuilder = build('Post', {
   fields: {
     title: fake((f) => f.lorem.words()),
-    // this adds paragraphs with newlinees, always remove
+    // this adds paragraphs with new lines, always remove
     content: fake((f) => f.lorem.paragraphs().replace(/(\r\n|\n|\r)/gm, '')),
     tags: fake((f) => [f.lorem.word(), f.lorem.word(), f.lorem.word()]),
   },
@@ -72,4 +72,19 @@ test('should render a form with title, tags, content and submit btn', async () =
   await waitFor(() =>
     expect(MockRedirect).toHaveBeenCalledWith({ to: '/' }, {})
   );
+});
+
+test('should render an error when savePost fails', async () => {
+  const errorTest = 'test error';
+  mockSavePost.mockRejectedValueOnce({ data: { error: errorTest } });
+
+  const fakeUser = userBuilder();
+  render(<Editor user={fakeUser} />);
+
+  const submitBtn = screen.getByText(/submit/i);
+  user.click(submitBtn);
+
+  const postError = await screen.findByRole('alert');
+  expect(postError).toHaveTextContent(errorTest);
+  expect(submitBtn).toBeEnabled();
 });

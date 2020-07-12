@@ -1,6 +1,6 @@
 import React from 'react';
 import user from '@testing-library/user-event';
-import { render, screen, getByRole } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ErrorBoundary } from '../error-boundary';
 import { reportError as mockReportError } from '../api';
 

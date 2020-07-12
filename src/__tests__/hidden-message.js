@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, queryByTestId } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { HiddenMessage } from '../hidden-message';
 

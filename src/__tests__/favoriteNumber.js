@@ -4,7 +4,7 @@ import { FavoriteNumber } from '../favoriteNumber';
 import user from '@testing-library/user-event';
 
 test('should render an input with label "Favorite Number"', () => {
-  const { rerender, debug } = render(<FavoriteNumber />);
+  const { rerender } = render(<FavoriteNumber />);
 
   const input = screen.getByLabelText(/favorite number/i);
   expect(input).toBeInTheDocument();

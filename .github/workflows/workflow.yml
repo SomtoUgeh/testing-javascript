@@ -1,0 +1,24 @@
+name: CI-CD
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check code is ready
+    - uses: actions/checkout@v2
+    - run: npm run isready
+      
+    - name: report code coerage to codecov
+    - uses: codecov/codecov-actions@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} 
+        file: ./coverage.xml 
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true

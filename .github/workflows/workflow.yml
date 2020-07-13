@@ -8,17 +8,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: check code is ready
-    - uses: actions/checkout@v2
-    - run: npm run isready
-      
-    - name: report code coerage to codecov
-    - uses: codecov/codecov-actions@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} 
-        file: ./coverage.xml 
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: true
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: "10.x"
+      - run: npm run isready
+      - uses: codecov/codecov-actions@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} 
+          file: ./coverage.xml 
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
